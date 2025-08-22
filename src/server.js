@@ -1,14 +1,10 @@
-import { createServer } from 'node:http';
+import app from "./app.js";
+import dotenv from "dotenv";
 
-const hostname = '127.0.0.1';
-const port = 3000;
+dotenv.config();
 
-const server = createServer((req, res) => {
-  res.statusCode = 200;
-  res.setHeader('Content-Type', 'text/plain');
-  res.end('Hello World');
-});
+const PORT = process.env.PORT || 3000;
 
-server.listen(port, hostname, () => {
-  console.log(`Server running at http://${hostname}:${port}/`);
+app.listen(PORT, () => {
+  console.log(`🚀 Server running at http://localhost:${PORT}`);
 });
