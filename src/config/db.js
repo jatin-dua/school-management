@@ -12,14 +12,19 @@ export const pool = mysql.createPool({
   queueLimit: 0,
 });
 
-// Optional connectivity check on boot
-(async () => {
-    try {
-      const conn = await pool.getConnection();
-      await conn.ping();
-      conn.release();
-      console.log("✅ MySQL connected");
-    } catch (err) {
-      console.error("❌ MySQL connection failed:", err.message);
-    }
-  })();
+// Create table if not exists
+export async function initDB() {
+  const createTableQuery = `
+    CREATE TABLE IF NOT EXISTS schools (
+      id INT AUTO_INCREMENT PRIMARY KEY,
+      name VARCHAR(255) NOT NULL,
+      address VARCHAR(500) NOT NULL,
+      latitude DECIMAL(9,6) NOT NULL,
+      longitude DECIMAL(9,6) NOT NULL
+    )
+  `;
+  const conn = await pool.getConnection();
+  await conn.query(createTableQuery);
+  conn.release();
+  console.log("✅ School table ready");
+}
