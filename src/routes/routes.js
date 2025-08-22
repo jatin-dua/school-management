@@ -3,9 +3,20 @@ import { pool } from "../config/db.js";
 
 const router = Router();
 
-// Define routes
-router.get('/listSchools', (req, res) => {
-  res.send('List of schools');
+router.get("/listSchools", async (req, res) => {
+  try {
+    const query = `
+      SELECT id, name, address, latitude, longitude
+      FROM schools
+    `;
+
+    const [rows] = await pool.query(query);
+    res.json(rows);
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Error fetching schools" });
+  }
 });
 
 router.post("/addSchool", async (req, res) => {
