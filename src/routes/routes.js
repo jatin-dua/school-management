@@ -5,7 +5,7 @@ const router = Router();
 
 router.get("/listSchools", async (req, res) => {
   try {
-    const schools = await School.list();
+    const schools = await School.list(req.query.lat, req.query.lng);
     res.json(schools);
 
   } catch (err) {
