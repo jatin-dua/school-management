@@ -20,7 +20,9 @@ export async function initDB() {
       name VARCHAR(255) NOT NULL,
       address VARCHAR(500) NOT NULL,
       latitude DECIMAL(9,6) NOT NULL,
-      longitude DECIMAL(9,6) NOT NULL
+      longitude DECIMAL(9,6) NOT NULL,
+      geohash VARCHAR(12),
+      INDEX(geohash)        
     )
   `;
   const conn = await pool.getConnection();
