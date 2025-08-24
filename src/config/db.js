@@ -11,22 +11,3 @@ export const pool = mysql.createPool({
   connectionLimit: 10,
   queueLimit: 0,
 });
-
-// Create table if not exists
-export async function initDB() {
-  const createTableQuery = `
-    CREATE TABLE IF NOT EXISTS schools (
-      id INT AUTO_INCREMENT PRIMARY KEY,
-      name VARCHAR(255) NOT NULL,
-      address VARCHAR(500) NOT NULL,
-      latitude DECIMAL(9,6) NOT NULL,
-      longitude DECIMAL(9,6) NOT NULL,
-      geohash VARCHAR(12),
-      INDEX(geohash)        
-    )
-  `;
-  const conn = await pool.getConnection();
-  await conn.query(createTableQuery);
-  conn.release();
-  console.log("✅ School table ready");
-}
